@@ -1,0 +1,76 @@
+
+body {
+  background-image: url("bgnd18.jpeg");
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f6f6f6;
+}
+
+.container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+
+img {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  margin-bottom: 15px;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+.button-container {
+  margin-bottom: 20px;
+}
+
+.button-container button {
+  width: 100%;
+  padding: 15px;
+  background-color: #387eff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.or-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.or-line {
+  width: 45%;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.or-text {
+  margin: 0 10px;
+  color: #ccc;
+}
+
+.facebook-login {
+  display: block;
+  width: 100%;
+  padding:20px;
+}
