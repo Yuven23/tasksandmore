@@ -15,12 +15,25 @@ if(isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
     $user_name = $_SESSION['user_name'];
     $phone_number = $_SESSION['phone_number'];
+
     
     // Now you can use $email, $user_name, $phone_number variables in your page
 } else {
     // Redirect the user to the login page if session variables are not set
     header("Location: login.php");
     exit();
+}
+$stmt = $conn->prepare("SELECT user_name, image_path FROM user_details WHERE email = ?");
+$stmt->bind_param("s", $userEmail);
+$stmt->execute();
+$result = $stmt->get_result();
+$userDetails = $result->fetch_assoc();
+
+if ($userDetails) {
+    $image_path = $userDetails['image_path'];
+} else {
+    // Handle the case where no results were found
+    $image_path = 'default_image_path'; // Provide a default image path if needed
 }
 
 // SQL query to retrieve all tasks
@@ -270,20 +283,21 @@ if ($conn) {
             <!-- Profile Image -->
             <div class="profile-image" onclick="showEnlargedImage()">
                 <!-- Display the user's profile image -->
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($userDetails['image_path']); ?>" alt="Profile Image">
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($image_path); ?>" alt="Profile Image">
             </div>
             <!-- Enlarged image and overlay for when the image is clicked -->
             <div id="overlay" onclick="hideEnlargedImage()"></div>
-            <img id="enlargedImage" src="data:image/jpeg;base64,<?php echo base64_encode($userDetails['image_path']); ?>" alt="Enlarged User Image">
+            <img id="enlargedImage" src="data:image/jpeg;base64,<?php echo base64_encode($image_path); ?>" alt="Enlarged User Image">
             <!-- Profile Name -->
-            <div class="profile-name"><?php echo $userDetails['user_name']; ?></div>
+            <div class="profile-name"><?php echo $user_name; ?></div>
             <!-- Menu Links/Buttons -->
             <div class="menu-links">
-                <button onclick="goToPage('profile.php')">Add Tasks</button>
-                <button onclick="goToPage('task_home.php')">View My Tasks</button>
+                <button onclick="goToPage('profile.php')">my profile</button>
+                <button onclick="openAddTaskModal()">Add Tasks</button>
+                <button onclick="viewMyTasks()">View My Tasks</button>
                 <button onclick="goToPage('prof')">View Accepted Tasks</button>
                 <button onclick="goToPage('settings')">Delete Tasks</button>
-                <button onclick="goToPage('other')">Go To Home</button>
+                <button onclick="goToHomePage()">Go To Home</button>
             </div>
         </div>
     </div>
