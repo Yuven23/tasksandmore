@@ -63,11 +63,11 @@ $user_name = $userDetails['user_name'];
   body {
       margin: 0;
       font-family: 'Raleway', sans-serif;
-      background: url("Profile_bgnd.png") center/cover fixed no-repeat;
+      background: url("recbgnd3.jpeg") center/cover fixed no-repeat;
       color:white;
       position: relative;
   }
-  body:before {
+   body:before {
               content: "";
               position: fixed;
               top: 0;
@@ -76,7 +76,7 @@ $user_name = $userDetails['user_name'];
               height: 100%;
               background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
               z-index: -1;
-          }
+          } 
 
   .video-container {
       margin: 50px auto;
@@ -159,12 +159,14 @@ $user_name = $userDetails['user_name'];
       float: right;
       display: block;
     
-    }
+    } 
     .w3-bar-item {
-      padding: 15px 20px;
-      text-align: center;
+      padding: 16px;
+      height:75px;
+      text-align: top;
       text-decoration: none;
       display: inline-block;
+      font-size: 18px; /* Increased font size for navbar buttons */
       transition: background-color 0.3s;
     }
     /* Style for the toggled menu items */
@@ -181,14 +183,7 @@ $user_name = $userDetails['user_name'];
       text-decoration: none;
       display: inline-block;
       transition: background-color 0.3s;
-    }
-    /* Hover effect for the links */
-    .menu-link:hover {
-      background-color: #f0f0f0;
-    }
-    .burger-menu {
-      position: relative;
-  }
+    } 
 
   .menu-icon {
       width: 40px;
@@ -206,17 +201,6 @@ $user_name = $userDetails['user_name'];
   }
 
 
-
-  .side-menu {
-      position: fixed;
-      top: 0;
-      left: -250px; /* Start off-screen */
-      width: 250px;
-      height: 100%;
-      background-color: #f4f4f4;
-      transition: left 0.3s ease;
-  }
-
   .profile {
       padding: 20px;
   }
@@ -227,6 +211,7 @@ $user_name = $userDetails['user_name'];
       background-color: #ccc;
       border-radius: 50%;
       margin-bottom: 10px;
+      margin-right: 10px; /* Reduced margin between the profile image and buttons */
   }
 
   .profile-name {
@@ -275,32 +260,44 @@ $user_name = $userDetails['user_name'];
   </head>
   <body>
 
-  <div class="burger-menu">
-    <div class="menu-icon" onclick="toggleMenu()">
-        &#9776;
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+   <!-- Display the user's profile image -->
+   <a href="profile.php"><img src="data:image/jpeg;base64,<?= base64_encode($userDetails['image_path']) ?>" alt="Profile Image" style="position:absolute;height:75px;width:75px;border-radius:50%;left:10px;"></a> 
+    
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small" >
+      <a href="task_home.php" class="w3-bar-item w3-button">Tasks</a>
+      <a href="exchanges.php" class="w3-bar-item w3-button">Exchanges</a>
+      <a href="leaderboard.php" class="w3-bar-item w3-button">LeaderBoard</a>
+      <a href="other.php" class="w3-bar-item w3-button">Lost And Found</a>
+      <a href="comic.html" class="w3-bar-item w3-button">Comics</a>
     </div>
-    <div class="side-menu" id="sideMenu">
-        <div class="profile">
-            <div class="profile-image" onclick="showEnlargedImage()">
-                <!-- Display the user's profile image -->
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($userDetails['image_path']); ?>" alt="Profile Image">
-            </div>
-           <!-- Enlarged image and overlay for when the image is clicked -->
+
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+  <a href="profile.php" class="w3-bar-item w3-button">My Profile</a>
+      <a href="task_home.php" class="w3-bar-item w3-button">Tasks</a>
+      <a href="exchanges.php" class="w3-bar-item w3-button">Exchanges</a>
+      <a href="leaderboard.php" class="w3-bar-item w3-button">LeaderBoard</a>
+      <a href="other.php" class="w3-bar-item w3-button">Lost And Found</a>
+      <a href="comic.html" class="w3-bar-item w3-button">Comics</a>
+</nav>
+
+
+<!-- Enlarged image and overlay for when the image is clicked -->
 <div id="overlay" onclick="hideEnlargedImage()"></div>
 <img id="enlargedImage" src="data:image/jpeg;base64,<?php echo base64_encode($userDetails['image_path']); ?>" alt="Enlarged User Image">
-            <!-- Display the user's name -->
-            <div class="profile-name"><?php echo $userDetails['user_name']; ?></div>
-            <!-- Menu links/buttons -->
-            <div class="menu-links">
-                <button onclick="goToPage('profile.php')"> My Profile</button>
-                <button onclick="goToPage('task_home.php')">Tasks</button>
-                <button onclick="goToPage('prof')">Exchanges</button>
-                <button onclick="goToPage('settings')">LeaderBoard</button>
-                <button onclick="goToPage('other')">Other</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
@@ -334,68 +331,73 @@ $user_name = $userDetails['user_name'];
   </div>
 
   <!-- Team Section -->
-  <div class="w3-container overlay" style="padding:128px 16px;background-image: url('team_background.jpg');">
+<div class="w3-container overlay" style="padding:128px 16px;background-image: url('team_background.jpg');">
     <h3 class="w3-center">THE TEAM</h3>
     <p class="w3-center w3-large">The ones who run this website</p>
     <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
-      <div class="w3-col l3 m6 w3-margin-bottom">
-        <div class="w3-card">
-          <div class="w3-container">
-            <h3>Shiiv R.S</h3>
-            <p class="w3-opacity">Creator</p>
-            <p>The Biggest risk is to not take any risk.</p>
-            <button class="w3-button w3-light-grey w3-block contact-button" onclick="toggleContact('contact-shiiv')"><i class="fa fa-envelope"></i> Contact</button>
-            <div class="contact-details" id="contact-shiiv">
-              <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +91 93846 37022</p>
-              <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: 220701331@rajalakshmi.edu.in</p>
+        <div class="w3-col l3 m6 w3-margin-bottom">
+            <div class="w3-card">
+                <img src="Shiiv.jpeg" alt="Jane" style="width:100%; filter:none; -webkit-filter:none;">
+                <div class="w3-container">
+                    <h3>Shiiv R.S</h3>
+                    <p class="w3-opacity">Creator</p>
+                    <p>The Biggest risk is to not take any risk.</p>
+                    <button class="w3-button w3-light-grey w3-block contact-button" onclick="toggleContact('contact-shiiv')"><i class="fa fa-envelope"></i> Contact</button>
+                    <div class="contact-details" id="contact-shiiv">
+                        <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +91 93846 37022</p>
+                        <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: 220701331@rajalakshmi.edu.in</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="w3-col l3 m6 w3-margin-bottom">
-        <div class="w3-card">
-          <div class="w3-container">
-            <h3>Yuven Senthilkumar</h3>
-            <p class="w3-opacity">Creator</p>
-            <p>More gold has been mined from the brains of men than has ever been from the world.</p>
-            <button class="w3-button w3-light-grey w3-block contact-button" onclick="toggleContact('contact-yuven')"><i class="fa fa-envelope"></i> Contact</button>
-            <div class="contact-details" id="contact-yuven">
-              <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +91 99400 21719</p>
-              <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email:220701330@rajalakshmi.edu.in</p>
+        <div class="w3-col l3 m6 w3-margin-bottom">
+            <div class="w3-card">
+                <img src="Me.jpeg" alt="Jane" style="width:100%; filter:none; -webkit-filter:none;">
+                <div class="w3-container">
+                    <h3>Yuven Senthilkumar</h3>
+                    <p class="w3-opacity">Creator</p>
+                    <p>More gold has been mined from the brains of men than has ever been from the world.</p>
+                    <button class="w3-button w3-light-grey w3-block contact-button" onclick="toggleContact('contact-yuven')"><i class="fa fa-envelope"></i> Contact</button>
+                    <div class="contact-details" id="contact-yuven">
+                        <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +91 99400 21719</p>
+                        <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email:220701330@rajalakshmi.edu.in</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="w3-col l3 m6 w3-margin-bottom">
-        <div class="w3-card">
-          <div class="w3-container">
-            <h3>Udhaya Shankar J</h3>
-            <p class="w3-opacity"> Creator</p>
-            <p>We learn from mistakes, convey our learnings by success</p>
-            <button class="w3-button w3-light-grey w3-block contact-button" onclick="toggleContact('contact-udhaya')"><i class="fa fa-envelope"></i> Contact</button>
-            <div class="contact-details" id="contact-udhaya">
-              <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +91 6374 829 686</p>
-              <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email:220701306@rajalakshmi.edu.in</p>
+        <div class="w3-col l3 m6 w3-margin-bottom">
+            <div class="w3-card">
+                <img src="Udhaya.jpeg" alt="Jane" style="width:100%; filter:none; -webkit-filter:none;">
+                <div class="w3-container">
+                    <h3>Udhaya Shankar J</h3>
+                    <p class="w3-opacity"> Creator</p>
+                    <p>We learn from mistakes, convey our learnings by success</p>
+                    <button class="w3-button w3-light-grey w3-block contact-button" onclick="toggleContact('contact-udhaya')"><i class="fa fa-envelope"></i> Contact</button>
+                    <div class="contact-details" id="contact-udhaya">
+                        <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +91 6374 829 686</p>
+                        <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email:220701306@rajalakshmi.edu.in</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="w3-col l3 m6 w3-margin-bottom">
-        <div class="w3-card">
-          <div class="w3-container">
-            <h3>Sharukeshwar P</h3>
-            <p class="w3-opacity">Creator</p>
-            <p>"Creation is the essence of mankind, and I'm here to do my part. With a good amount of expertise in designing, I bridge the gap between my visions and reality.”</p>
-            <button class="w3-button w3-light-grey w3-block contact-button" onclick="toggleContact('contact-sharukeshwar')"><i class="fa fa-envelope"></i> Contact</button>
-            <div class="contact-details" id="contact-sharukeshwar">
-              <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +91 93610 70552</p>
-              <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: 220701265@rajalakshmi.edu.in</p>
+        <div class="w3-col l3 m6 w3-margin-bottom">
+            <div class="w3-card">
+                <img src="Sharuk.jpeg" alt="Sharuk" style="width:100%; filter:none; -webkit-filter:none;">
+                <div class="w3-container">
+                    <h3>Sharukeshwar P</h3>
+                    <p class="w3-opacity">Creator</p>
+                    <p>"Creation is the essence of mankind, and I'm here to do my part. With a good amount of expertise in designing, I bridge the gap between my visions and reality.”</p>
+                    <button class="w3-button w3-light-grey w3-block contact-button" onclick="toggleContact('contact-sharukeshwar')"><i class="fa fa-envelope"></i> Contact</button>
+                    <div class="contact-details" id="contact-sharukeshwar">
+                        <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +91 93610 70552</p>
+                        <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: 220701265@rajalakshmi.edu.in</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+
 
   <!-- Video Section -->
   <div class="content">
@@ -438,29 +440,20 @@ $user_name = $userDetails['user_name'];
   </footer>
 
   <script>
-  function toggleMenu() {
-      var sideMenu = document.getElementById('sideMenu');
-      if (sideMenu.style.left === "-250px" || sideMenu.style.left === "") {
-          sideMenu.style.left = "0";
-          // Add event listener to close menu on outside click
-          document.addEventListener('click', closeMenuOnClickOutside);
-      } else {
-          sideMenu.style.left = "-250px";
-          // Remove event listener when menu is closed
-          document.removeEventListener('click', closeMenuOnClickOutside);
-      }
-  }
+  var mySidebar = document.getElementById("mySidebar");
 
-  // Function to close the side menu when clicking outside
-  function closeMenuOnClickOutside(event) {
-      var sideMenu = document.getElementById('sideMenu');
-      var menuIcon = document.querySelector('.menu-icon');
-      if (!sideMenu.contains(event.target) && event.target !== menuIcon) {
-          sideMenu.style.left = "-250px";
-          document.removeEventListener('click', closeMenuOnClickOutside);
-      }
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+  } else {
+    mySidebar.style.display = 'block';
   }
+}
 
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+}
   function goToPage(page) {
       // Close the side menu before navigating to the desired page
       var sideMenu = document.getElementById('sideMenu');
@@ -468,22 +461,9 @@ $user_name = $userDetails['user_name'];
       document.removeEventListener('click', closeMenuOnClickOutside);
 
       // Here you can implement the logic to navigate to the desired page
-      switch (page) {
-          case 'task_home.php':
-              // Navigate to the home page
-              window.location.href = "task_home.php";
-              break;
-          case 'profile.php':
-              // Navigate to the profile page
-              window.location.href = "profile.php";
-              break;
-          case 'settings':
-              // Navigate to the settings page
-              window.location.href = "settings.html";
-              break;
-          default:
-              console.log("Unknown page: " + page);
-      }
+      
+              window.location.href = page;
+            
       console.log("Navigating to " + page + " page");
   }
 function showEnlargedImage() {
@@ -494,6 +474,14 @@ function showEnlargedImage() {
 function hideEnlargedImage() {
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('enlargedImage').style.display = 'none';
+}
+function toggleContact(contactId) {
+    var contactDetails = document.getElementById(contactId);
+    if (contactDetails.style.display === "none" || contactDetails.style.display === "") {
+        contactDetails.style.display = "block";
+    } else {
+        contactDetails.style.display = "none";
+    }
 }
 </script>
 

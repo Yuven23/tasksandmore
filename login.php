@@ -39,6 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['phone_number'] = $phone_number;
             }
             
+            // Log the login
+            $stmt_login = $conn->prepare("INSERT IGNORE INTO user_logins (user_email, login_date) VALUES (?, CURDATE())");
+            $stmt_login->bind_param("s", $email);
+            $stmt_login->execute();
+            
             // Redirect to the homepage
             header("Location: home.php");
             exit; // Ensure script stops execution after redirection
@@ -54,102 +59,86 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
 }
 ?>
-?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-image: url('Profile_bgnd.png');
+            background-image: url('recbgnd3.jpeg');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
+            margin: 0;
+            padding: 0;
         }
+        body:before {
+              content: "";
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+              z-index: -1;
+          }
         .container {
-            width: 70%; /* Adjust container width for mobile devices */
-            max-width: 300px; /* Maximum width for larger screens */
-            margin: 0 auto; /* Center the container */
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
         }
-        .login-form {
-            margin-bottom: 20px;
+        .form-group label {
+            text-align: left;
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            text-align: left; /* Align labels to the left */
-        }
-        input[type="email"],
-        input[type="password"],
-        input[type="submit"],
-        .create-account-btn {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        input[type="submit"],
-        .create-account-btn {
-            background-color: #4CAF50;
+        .btn-custom {
+            background-color: red;
             color: white;
             border: none;
-            cursor: pointer;
-            font-size: 16px;
-            text-decoration: none;
         }
-        input[type="submit"]:hover,
-        .create-account-btn:hover {
+        .btn-custom:hover {
             background-color: #45a049;
-        }
-        /* Added style for title */
-        h2 {
-            color: black;
-        }
-        /* Media query for smaller screens (e.g., mobile devices) */
-        @media screen and (max-width: 0px) {
-            body {
-                background-size: contain;
-            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Login to Tasks & More</h2> <!-- Changed title -->
+<div class="container col-md-4">
+    <h2 class="mb-4">Login to tasksandmore.com</h2> <!-- Changed title -->
     
     <?php if(isset($error)): ?>
-        <div><?php echo $error; ?></div>
+        <div class="alert alert-danger"><?php echo $error; ?></div>
     <?php endif; ?>
 
-    <div class="login-form">
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <input type="submit" value="Login">
-        </form>
-    </div>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-custom btn-block">Login</button>
+    </form>
 
-    <a href="signup.php" class="create-account-btn">Create Account</a>
+    <a href="signup.php" class="btn btn-custom btn-block mt-3">Create Account</a>
 </div>
 
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
-</html>
 </html>

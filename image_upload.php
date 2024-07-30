@@ -20,7 +20,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
 
     if ($stmt->execute()) {
         echo "Image uploaded successfully.";
-        header("Location: profile.php");
+        header("Location: profile2.php");
         exit();
     } else {
         echo "Error uploading image.";
